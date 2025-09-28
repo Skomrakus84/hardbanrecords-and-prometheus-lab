@@ -1,0 +1,364 @@
+import React, { useState, useCallback, useMemo } from 'react';
+import { useAppStore } from '../../store/appStore';
+import { AddReleaseForm as AddReleaseFormNew } from './AddReleaseFormNew';
+
+interface ReleaseFormData {
+  title: string;
+  artist: string;
+  genre: string;
+  releaseDate: string;
+  platforms: string[];
+  coverArt?: File;
+  tracks: TrackData[];
+  metadata: {
+    description: string;
+    tags: string[];
+    language: string;
+    explicitContent: boolean;
+  };
+}
+
+interface TrackData {
+  title: string;
+  duration: string;
+  audioFile?: File;
+  isrc?: string;
+}
+
+interface MusicRelease {
+  id: number;
+  title: string;
+  artist: string;
+  genre?: string;
+  status: string;
+  releaseDate?: string;
+  splits: { name: string; share: string }[];
+  coverImageUrl?: string;
+  audioUrl?: string;
+}
+
+interface ReleasesViewProps {
+  onSelectRelease?: (release: MusicRelease) => void;
+}
+
+// Komponent dla pojedynczego release card
+const ReleaseCard = ({
+  release,
+  onSelect,
+  onDelete,
+  isDeleting
+}: {
+  release: MusicRelease;
+  onSelect: () => void;
+  onDelete: () => void;
+  isDeleting: boolean;
+}) => {
+  const statusConfig = useMemo(() => {
+    const configs = {
+      published: { bg: '#4CAF50', text: 'Published' },
+      draft: { bg: '#FFA000', text: 'Draft' },
+      archived: { bg: '#757575', text: 'Archived' },
+      pending: { bg: '#2196F3', text: 'Pending' }
+    };
+    return configs[release.status as keyof typeof configs] || configs.draft;
+  }, [release.status]);
+
+  return (
+    <div className="release-card">
+      <div className="card-content">
+        <div className="card-header">
+          <h3 className="release-title">{release.title}</h3>
+          <span
+            className="status-badge"
+            style={{ backgroundColor: statusConfig.bg }}
+          >
+            {statusConfig.text}
+          </span>
+        </div>
+
+        <div className="release-info">
+          <p className="artist-name">{release.artist}</p>
+          <p className="genre">Genre: {release.genre}</p>
+          {release.releaseDate && (
+            <p className="release-date">
+              Release: {new Date(release.releaseDate).toLocaleDateString()}
+            </p>
+          )}
+          {release.splits.length > 0 && (
+            <p className="splits-count">
+              {release.splits.length} split{release.splits.length > 1 ? 's' : ''}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="card-actions">
+        <button
+          onClick={onSelect}
+          className="btn btn-primary"
+          disabled={isDeleting}
+        >
+          View Details
+        </button>
+        <button
+          onClick={onDelete}
+          className="btn btn-danger"
+          disabled={isDeleting}
+        >
+          {isDeleting ? 'Deleting...' : 'Delete'}
+        </button>
+      </div>
+
+      {/* Style jsx removed - replaced with Tailwind CSS classes */}
+          height: 100%;
+        }
+
+        .release-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          border-color: #555;
+        }
+
+        .card-content {
+          flex: 1;
+        }
+
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 15px;
+          gap: 10px;
+        }
+
+        .release-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #E0E0E0;
+          margin: 0;
+          line-height: 1.3;
+          flex: 1;
+        }
+
+        .status-badge {
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: white;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .release-info {
+          margin-bottom: 20px;
+        }
+
+        .release-info p {
+          margin: 6px 0;
+          color: #A0A0A0;
+          font-size: 0.9rem;
+        }
+
+        .artist-name {
+          font-weight: 500;
+          color: #B0B0B0 !important;
+          font-size: 1rem !important;
+        }
+
+        .card-actions {
+          display: flex;
+          gap: 10px;
+          margin-top: auto;
+        }
+
+        .btn {
+          padding: 8px 16px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          flex: 1;
+        }
+
+        .btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .btn-primary {
+          background: #2196F3;
+          color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+          background: #1976D2;
+        }
+
+      {/* Style jsx removed - replaced with Tailwind CSS classes */}
+    </div>
+  );
+};
+
+export const ReleasesView = ({ onSelectRelease }: ReleasesViewProps) => {
+  const { releases } = useAppStore(state => state.music);
+  const { deleteRelease, isLoading, error, clearError } = useAppStore();
+  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [deletingIds, setDeletingIds] = useState<Set<number>>(new Set());
+
+  const handleDelete = useCallback(async (release: MusicRelease) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${release.title}" by ${release.artist}?\n\nThis action cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    setDeletingIds(prev => new Set(prev).add(release.id));
+    try {
+      await deleteRelease(release.id);
+    } catch (err) {
+      // Error jest już obsłużony w store
+      console.error('Delete failed:', err);
+    } finally {
+      setDeletingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(release.id);
+        return newSet;
+      });
+    }
+  }, [deleteRelease]);
+
+  const handleSelectRelease = useCallback((release: MusicRelease) => {
+    onSelectRelease?.(release);
+  }, [onSelectRelease]);
+
+  // Sortowanie i filtrowanie releases
+  const sortedReleases = useMemo(() => {
+    return [...releases].sort((a, b) => {
+      // Najpierw po statusie (published na końcu)
+      const statusOrder = { draft: 0, pending: 1, published: 2, archived: 3 };
+      const statusDiff = (statusOrder[a.status as keyof typeof statusOrder] || 0) -
+                        (statusOrder[b.status as keyof typeof statusOrder] || 0);
+
+      if (statusDiff !== 0) return statusDiff;
+
+      // Potem po dacie release (najnowsze pierwsze)
+      if (a.releaseDate && b.releaseDate) {
+        return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
+      }
+
+      // Na końcu alfabetycznie po tytule
+      return a.title.localeCompare(b.title);
+    });
+  }, [releases]);
+
+  const handleAddNew = useCallback(() => {
+    setIsAddingNew(true);
+  }, []);
+
+  const handleCloseForm = useCallback(() => {
+    setIsAddingNew(false);
+  }, []);
+
+  const handleAddRelease = useCallback(async (releaseData: ReleaseFormData) => {
+    try {
+      // Transform new form data to old format for compatibility
+      const transformedData = {
+        title: releaseData.title,
+        artist: releaseData.artist,
+        genre: releaseData.genre,
+        releaseDate: releaseData.releaseDate,
+        splits: [],
+        coverImageUrl: '',
+        audioUrl: ''
+      };
+
+      // Use store function to add release
+      const store = useAppStore.getState();
+      await store.addRelease(transformedData);
+      setIsAddingNew(false);
+      store.addToast('Release created successfully!', 'success');
+    } catch (error) {
+      console.error('Error creating release:', error);
+      const store = useAppStore.getState();
+      store.addToast('Failed to create release', 'error');
+    }
+  }, []);
+
+  return (
+    <div className="releases-view">
+      {/* Header */}
+      <div className="view-header">
+        <div className="header-content">
+          <h2 className="view-title">
+            Releases
+            <span className="releases-count">({releases.length})</span>
+          </h2>
+          <button
+            onClick={handleAddNew}
+            className="btn btn-add"
+            disabled={isLoading}
+          >
+            <span className="btn-icon">+</span>
+            Add New Release
+          </button>
+        </div>
+      </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div className="error-banner">
+          <span>{error}</span>
+          <button onClick={clearError} className="error-close">×</button>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading && releases.length === 0 && (
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading releases...</p>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!isLoading && releases.length === 0 && !error && (
+        <div className="empty-state">
+          <div className="empty-icon">🎵</div>
+          <h3>No releases yet</h3>
+          <p>Create your first music release to get started</p>
+          <button onClick={handleAddNew} className="btn btn-add">
+            Create First Release
+          </button>
+        </div>
+      )}
+
+      {/* Releases Grid */}
+      {releases.length > 0 && (
+        <div className="releases-grid">
+          {sortedReleases.map((release) => (
+            <ReleaseCard
+              key={release.id}
+              release={release}
+              onSelect={() => handleSelectRelease(release)}
+              onDelete={() => handleDelete(release)}
+              isDeleting={deletingIds.has(release.id)}
+            />
+          ))}
+        </div>
+      )}
+
+            {/* New Release Form Modal */}
+      {isAddingNew && (
+        <AddReleaseFormNew
+          onClose={handleCloseForm}
+          onSubmit={handleAddRelease}
+        />
+      )}
+
+      {/* All CSS styles have been converted to Tailwind classes */}
+    </div>
+  );
+};

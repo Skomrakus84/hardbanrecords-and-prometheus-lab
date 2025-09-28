@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.saveConflictResolution": "overwriteFileOnDisk",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "typescript.preferences.includePackageJsonAutoImports": "off",
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/.git/objects/**": true,
+      "**/.next/**": true,
+      "**/dist/**": true,
+      "**/build/**": true,
+      "**/*.log": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss"
+    ]
+  }
+}

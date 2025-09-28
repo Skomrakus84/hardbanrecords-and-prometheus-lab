@@ -1,0 +1,13 @@
+# Render.com frontend service definition for Vite/React
+services:
+  - type: web
+    name: hardbanrecords-frontend
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    autoDeploy: true
+    rootDir: ..

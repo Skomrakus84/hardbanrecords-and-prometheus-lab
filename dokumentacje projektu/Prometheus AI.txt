@@ -1,0 +1,1195 @@
+📚 Prometheus AI Marketing Suite - Kompletna Dokumentacja Techniczna
+Wersja: 1.0
+Data: 24 maja 2024
+Autor: Zespół Prometheus Development
+
+📋 Spis Treści
+Przegląd Architektury
+Struktura Aplikacji
+Dokumentacja Stron
+Integracje API
+Encje i Model Danych
+Komponenty Wielokrotnego Użytku
+System Autoryzacji
+Deployment i Konfiguracja
+1. Przegląd Architektury
+1.1 Stack Technologiczny
+Frontend: React 18 + TypeScript
+UI Framework: Tailwind CSS + Shadcn/UI
+State Management: React Hooks + Local State
+Backend: Base44 Platform (Headless CMS)
+Database: Base44 Entity System
+Authentication: Base44 Auth (Google OAuth)
+API Integration: 150+ External APIs
+File Storage: Base44 Cloud Storage
+1.2 Architektura Systemu
+graph TB
+    A[React Frontend] --> B[Base44 Platform]
+    B --> C[Entity Database]
+    B --> D[Authentication System]
+    B --> E[File Storage]
+    
+    A --> F[External APIs]
+    F --> G[Media Monitoring APIs]
+    F --> H[Music Analytics APIs] 
+    F --> I[Social Media APIs]
+    F --> J[AI/ML APIs]
+    F --> K[E-commerce APIs]
+1.3 Wzorce Projektowe
+API-First Architecture: Wszystkie funkcje są projektowane z myślą o integracji z zewnętrznymi API
+Component-Based Design: Modularna struktura komponentów wielokrotnego użytku
+Headless CMS Approach: Separacja logiki biznesowej od prezentacji
+Progressive Enhancement: Funkcje działają w trybie offline z opcją synchronizacji
+2. Struktura Aplikacji
+2.1 Struktura Folderów
+prometheus-app/
+├── entities/                 # Definicje encji (JSON Schema)
+│   ├── Campaign.json
+│   ├── Content.json
+│   ├── Contact.json
+│   ├── Analytics.json
+│   └── User.json
+├── pages/                    # Główne strony aplikacji
+│   ├── Dashboard.js
+│   ├── Onboarding.jsx
+│   ├── Creative.jsx
+│   ├── AIStudio.jsx
+│   ├── Store.jsx
+│   ├── Campaigns.jsx
+│   ├── Analytics.jsx
+│   ├── MediaMonitoring.jsx
+│   ├── SmartLinks.jsx
+│   ├── MusicAnalytics.jsx
+│   ├── PressRelease.jsx
+│   ├── SocialMedia.jsx
+│   ├── Contacts.jsx
+│   ├── ContentLibrary.jsx
+│   ├── Calendar.jsx
+│   ├── AIAssistant.jsx
+│   └── Settings.jsx
+├── components/               # Komponenty wielokrotnego użytku
+│   ├── dashboard/
+│   ├── creative/
+│   ├── ai/
+│   ├── analytics/
+│   ├── press_release/
+│   ├── collaboration/
+│   ├── forms/
+│   ├── calendar/
+│   ├── ecommerce/
+│   ├── notifications/
+│   └── ui/                   # Shadcn/UI komponenty
+└── Layout.js                 # Główny layout aplikacji
+2.2 Routing i Nawigacja
+Aplikacja wykorzystuje React Router z dynamicznym systemem routingu:
+
+// Główne ścieżki aplikacji
+/Dashboard          → Centrum dowodzenia
+/Onboarding        → Proces wprowadzenia nowych użytkowników  
+/Creative          → AI Creative Studio
+/AIStudio          → Generowanie muzyki AI
+/Store             → E-commerce i merchandising
+/Campaigns         → Zarządzanie kampaniami
+/Analytics         → Zaawansowana analityka
+/MediaMonitoring   → Monitorowanie wzmianek
+/SmartLinks        → Inteligentne linki
+/MusicAnalytics    → Analityka muzyczna
+/PressRelease      → Dystrybucja PR
+/SocialMedia       → Zarządzanie social media
+/Contacts          → Baza kontaktów PR
+/ContentLibrary    → Biblioteka treści
+/Calendar          → Kalendarz publikacji
+/AIAssistant       → Asystent AI
+/Settings          → Ustawienia i integracje
+3. Dokumentacja Stron
+3.1 Dashboard (pages/Dashboard.js)
+Cel: Centralne centrum dowodzenia dla użytkownika
+
+Funkcje:
+
+Przegląd kluczowych metryk (aktywne kampanie, budżet, ROI, wyświetlenia)
+Lista ostatnich kampanii z szybkimi akcjami
+AI Insights - rekomendacje i ostrzeżenia
+Wykresy wydajności w czasie rzeczywistym
+Konfigurowalne widżety (drag & drop)
+Używane API:
+
+Base44 Entities API (Campaign, Analytics)
+Brak zewnętrznych API
+Kluczowe Komponenty:
+
+StatsCard - Karty z metrykami
+CampaignsList - Lista kampanii
+AIInsights - Panel rekomendacji AI
+PerformanceChart - Wykresy analityczne
+DashboardWidgets - Konfigurowalne widżety
+// Przykład użycia
+const Dashboard = () => {
+  const [campaigns, setCampaigns] = useState([]);
+  const [analytics, setAnalytics] = useState([]);
+  
+  // Ładowanie danych
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+  
+  // Kalkulacja statystyk
+  const stats = calculateStats();
+  
+  return (
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <StatsCards stats={stats} />
+      <CampaignsList campaigns={campaigns} />
+      <AIInsights analytics={analytics} />
+    </DragDropContext>
+  );
+};
+3.2 Onboarding (pages/Onboarding.jsx)
+Cel: Przewodnik wprowadzający dla nowych użytkowników
+
+Funkcje:
+
+4-krokowy proces konfiguracji konta
+Wybór profilu twórcy (muzyk, content creator, podcaster, biznes)
+Definiowanie celów marketingowych
+Połączenie podstawowych integracji
+Generowanie pierwszej strategii przez AI
+Używane API:
+
+Base44 User Entity API
+InvokeLLM (do generowania strategii)
+Flow Procesu:
+
+Wybór Profilu - Identyfikacja typu twórcy
+Cele - Definicja ambicji (zasięg, przychody, społeczność)
+Integracje - Połączenie kont social media
+Strategia AI - Generowanie spersonalizowanego planu
+// Przykład generowania strategii
+const generateFirstStrategy = async () => {
+  const strategy = await InvokeLLM({
+    prompt: `Create marketing strategy for ${selectedType.title}`,
+    response_json_schema: {
+      type: "object",
+      properties: {
+        channels: { type: "array" },
+        budget: { type: "string" },
+        timeline: { type: "string" },
+        keyActions: { type: "array" }
+      }
+    }
+  });
+  
+  await User.updateMyUserData({
+    creator_type: selectedType.id,
+    onboarding_completed: true,
+    initial_strategy: strategy
+  });
+};
+3.3 AI Creative Studio (pages/Creative.jsx)
+Cel: Kompleksowe narzędzie do tworzenia treści z wykorzystaniem AI
+
+Funkcje:
+
+Generator Strategii - AI tworzy plany marketingowe
+Kreator Treści - Generowanie postów, artykułów, reklam
+Studio Wizualne - Tworzenie obrazów przez AI
+Video Creator - Scenariusze i koncepty wideo
+Brand Voice - Spójny ton komunikacji
+Używane API:
+
+InvokeLLM (OpenAI/Claude)
+GenerateImage (Stability AI/DALL-E)
+Base44 Campaign & Content Entities
+Moduły:
+
+Generator Strategii
+// Komponenty: StrategyGenerator
+- Analiza konkurencji
+- Identyfikacja grupy docelowej
+- Wybór kanałów dystrybucji
+- Planowanie budżetu
+- Timeline kampanii
+Kreator Treści
+// Komponenty: ContentCreator
+- Template'y dla różnych formatów
+- Brand voice customization
+- SEO optimization
+- A/B testing variants
+Studio Wizualne
+const handleGenerateImage = async () => {
+  const result = await GenerateImage({ 
+    prompt: visualsPrompt,
+    style: selectedStyle 
+  });
+  setGeneratedImage(result.url);
+};
+3.4 AI Studio (pages/AIStudio.jsx)
+Cel: Zaawansowane narzędzia AI dla twórców muzycznych
+
+Funkcje:
+
+Generowanie muzyki przez AI
+Mastering i mixing automatyczny
+Tworzenie jingle'i i soundtracków
+Analiza harmoniczna utworów
+Sugerowanie sample'i i loop'ów
+Używane API:
+
+Loudly API (muzyka AI)
+AIVA API (kompozycja)
+Moises.ai API (separacja ścieżek)
+Kluczowe Features:
+
+// Generowanie muzyki
+const generateMusic = async (genre, mood, duration) => {
+  const response = await fetch('https://api.loudly.com/generate', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${LOUDLY_API_KEY}` },
+    body: JSON.stringify({ genre, mood, duration })
+  });
+  return response.json();
+};
+3.5 Store & E-commerce (pages/Store.jsx)
+Cel: Zarządzanie sklepem online i merchandisingiem
+
+Funkcje:
+
+Dashboard sprzedażowy z metrykami
+Zarządzanie produktami (CRUD)
+Kategorie: Odzież, Akcesoria, Lifestyle, Produkty Cyfrowe
+Integracja z print-on-demand
+Śledzenie zamówień i inventory
+Używane API:
+
+Shopify API (sklep)
+Printful API (print-on-demand)
+Stripe API (płatności)
+Komponenty:
+
+MerchandiseManager - Zarządzanie produktami
+Automatyczne dropshipping
+ROI tracking per produkt
+// Integracja z Printful
+const createProduct = async (productData) => {
+  const response = await fetch('https://api.printful.com/products', {
+    method: 'POST',
+    headers: { 
+      'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(productData)
+  });
+};
+3.6 Campaigns (pages/Campaigns.jsx)
+Cel: Centralne zarządzanie wszystkimi kampaniami marketingowymi
+
+Funkcje:
+
+Lista wszystkich kampanii z filtrowaniem
+CRUD operations (tworzenie, edycja, usuwanie)
+Status management (planowanie, aktywna, wstrzymana)
+Komentarze zespołowe i approval workflow
+AI rekomendacje optymalizacji
+Używane API:
+
+Base44 Campaign Entity
+Base44 Analytics Entity
+Status Flow:
+
+planning → active → paused ↔ completed → archived
+Kluczowe Funkcje:
+
+const updateCampaignStatus = async (campaignId, newStatus) => {
+  await Campaign.update(campaignId, { status: newStatus });
+  // Trigger analytics update
+  // Send notifications to team
+};
+3.7 Analytics (pages/Analytics.jsx)
+Cel: Zaawansowana analityka z AI insights
+
+Funkcje:
+
+Real-time dashboard z kluczowymi metrykami
+Predykcyjne modele AI
+Anomaly detection
+Benchmarking branżowy
+Custom reports i eksport danych
+Używane API:
+
+Base44 Analytics Entity
+Google Analytics API
+Facebook Analytics API
+InvokeLLM (dla AI insights)
+Komponenty:
+
+AdvancedAnalytics - Główny dashboard
+Wykresy interaktywne (Recharts)
+AI-powered insights
+Export do PDF/Excel
+3.8 Media Monitoring (pages/MediaMonitoring.jsx)
+Cel: Monitorowanie wzmianek o marce w czasie rzeczywistym
+
+Funkcje:
+
+Śledzenie wzmianek w mediach
+Analiza sentymentu
+Alerty o negatywnych wzmianken
+Raporting dla PR team
+Automatyczne odpowiedzi
+Używane API:
+
+// Konfiguracja API
+NewsData.io API Key     → newsdata_api_key
+NewsAPI.org Key        → newsapi_key  
+The Guardian API       → guardian_api_key
+Główne Features:
+
+const fetchMentions = async (keywords) => {
+  const [newsData, newsAPI, guardian] = await Promise.all([
+    fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${keywords}`),
+    fetch(`https://newsapi.org/v2/everything?apiKey=${NEWSAPI_KEY}&q=${keywords}`),
+    fetch(`https://content.guardianapis.com/search?api-key=${GUARDIAN_KEY}&q=${keywords}`)
+  ]);
+  
+  return aggregateResults([newsData, newsAPI, guardian]);
+};
+3.9 Smart Links (pages/SmartLinks.jsx)
+Cel: Tworzenie i analiza inteligentnych linków marketingowych
+
+Funkcje:
+
+Skracanie URL z custom domains
+Pre-save links dla muzyki
+UTM tracking automatyczny
+A/B testing linków
+Geo-targeting i device targeting
+Używane API:
+
+Bitly API              → bitly_access_token
+Rebrandly API          → rebrandly_api_key
+Feature.fm API         → feature_fm_api_key
+Przykład implementacji:
+
+const createSmartLink = async (originalUrl, platform) => {
+  let apiCall;
+  
+  switch(platform) {
+    case 'bitly':
+      apiCall = await fetch('https://api-ssl.bitly.com/v4/shorten', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${BITLY_TOKEN}` },
+        body: JSON.stringify({ long_url: originalUrl })
+      });
+      break;
+      
+    case 'feature.fm':
+      apiCall = await createPresaveLink(originalUrl);
+      break;
+  }
+  
+  return apiCall.json();
+};
+3.10 Music Analytics (pages/MusicAnalytics.jsx)
+Cel: Kompleksowa analityka dla twórców muzycznych
+
+Funkcje:
+
+Dane ze 150+ platform streamingowych
+Tracking wzrostu słuchaczy
+Analiza demograficzna fanów
+Playlist placement monitoring
+Revenue tracking i royalties
+Używane API:
+
+Songstats API          → songstats_api_key (RapidAPI)
+Spotify Web API        → spotify_client_id + spotify_client_secret
+Last.fm API           → lastfm_api_key
+Chartmetric API       → chartmetric_token
+Kluczowe Metryki:
+
+Streams, listeners, saves
+Playlist adds i removes
+Social media growth
+Concert attendance correlation
+const fetchSpotifyData = async (artistId) => {
+  const token = await getSpotifyToken();
+  
+  const [artist, albums, topTracks] = await Promise.all([
+    fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    }),
+    fetch(`https://api.spotify.com/v1/artists/${artistId}/albums`),
+    fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`)
+  ]);
+  
+  return { artist, albums, topTracks };
+};
+3.11 Press Release (pages/PressRelease.jsx)
+Cel: Automatyzacja dystrybucji informacji prasowych
+
+Funkcje:
+
+AI-powered writing assistant
+Database dziennikarzy i bloggerów
+Personalizacja wiadomości
+Automatyczna dystrybucja
+Tracking otwarć i odpowiedzi
+Workflow (4 kroki):
+
+Tworzenie - AI pomaga napisać press release
+Targeting - Wybór odpowiednich kontaktów
+Dystrybucja - Wysyłka na platformy i bezpośrednio
+Analityka - Śledzenie rezultatów
+Komponenty:
+
+PressReleaseGenerator
+ContactSuggester
+PlatformSubmission
+DistributionAnalytics
+3.12 Social Media (pages/SocialMedia.jsx)
+Cel: Zarządzanie wszystkimi kanałami społecznościowymi
+
+Funkcje:
+
+Połączenia OAuth z platformami
+Scheduling i bulk posting
+Analytics per platforma
+Automated responses
+Content calendar sync
+Wspierane Platformy:
+
+Facebook    → facebook_app_id + facebook_app_secret
+Instagram   → (przez Facebook Graph API)  
+Twitter     → twitter_bearer_token
+LinkedIn    → linkedin_client_id + linkedin_client_secret
+TikTok      → tiktok_client_key
+YouTube     → youtube_api_key
+OAuth Flow:
+
+const connectPlatform = (platform) => {
+  const oauthUrl = buildOAuthUrl(platform);
+  window.open(oauthUrl, '_blank', 'width=600,height=700');
+  
+  // Listen for callback
+  window.addEventListener('message', handleOAuthCallback);
+};
+3.13 Contacts (pages/Contacts.jsx)
+Cel: CRM dla kontaktów PR (dziennikarze, blogerzy, influencerzy)
+
+Funkcje:
+
+Database kontaktów z kategoryzacją
+Historia komunikacji
+Rating system (1-5 gwiazdek)
+AI matching score dla kampanii
+Bulk email campaigns
+Typy Kontaktów:
+
+Dziennikarz
+Bloger
+Influencer
+Redaktor
+Specjalista PR
+Struktura Danych:
+
+// Contact Entity
+{
+  name: "Jan Kowalski",
+  email: "j.kowalski@media.pl", 
+  organization: "Magazyn Muzyczny",
+  role: "journalist",
+  topics: ["muzyka", "kultura", "tech"],
+  reach: 50000,
+  rating: 4,
+  social_media: {
+    twitter: "@jkowalski",
+    linkedin: "jan-kowalski"
+  }
+}
+3.14 Content Library (pages/ContentLibrary.jsx)
+Cel: Centralna biblioteka wszystkich materiałów marketingowych
+
+Funkcje:
+
+Headless CMS dla treści
+Wersjonowanie i approval workflow
+AI sentiment analysis
+Multi-format support (tekst, obraz, wideo)
+Export i współdzielenie
+Formaty Treści:
+
+Post społecznościowy
+Artykuł blogowy
+Tekst reklamowy
+Email marketing
+Press release
+Scenariusz wideo/podcast
+Collaboration Features:
+
+// System komentarzy
+const CommentSystem = ({ contentId }) => {
+  const [comments, setComments] = useState([]);
+  
+  const addComment = async (comment) => {
+    await Content.update(contentId, {
+      comments: [...comments, {
+        id: generateId(),
+        author: currentUser.email,
+        content: comment,
+        timestamp: new Date().toISOString(),
+        status: "pending"
+      }]
+    });
+  };
+};
+3.15 Calendar (pages/Calendar.jsx)
+Cel: Planowanie i harmonogramowanie publikacji
+
+Funkcje:
+
+Drag & drop calendar interface
+Multi-platform scheduling
+Automated posting
+Content preview
+Team collaboration
+Features:
+
+Widok miesięczny z wydarzeniami
+Drag & drop do przenoszenia dat
+Integracja z Content Library
+Automated reminders
+// Drag & Drop Logic
+const handleDragEnd = (result) => {
+  const { source, destination } = result;
+  
+  if (!destination) return;
+  
+  const newDate = getDateFromDroppableId(destination.droppableId);
+  const eventId = result.draggableId;
+  
+  updateEventDate(eventId, newDate);
+};
+3.16 AI Assistant (pages/AIAssistant.jsx)
+Cel: Konwersacyjny asystent marketingowy
+
+Funkcje:
+
+Natural language queries
+Campaign optimization advice
+Content suggestions
+Performance analysis
+Strategic recommendations
+AI Capabilities:
+
+const AIAgent = () => {
+  const sendMessage = async (message) => {
+    const response = await InvokeLLM({
+      prompt: `Marketing expert context: ${message}`,
+      add_context_from_internet: true
+    });
+    
+    return response;
+  };
+};
+3.17 Settings (pages/Settings.jsx)
+Cel: Centrum konfiguracji i integracji API
+
+Funkcje:
+
+Klucze Integracji - Bezpieczne przechowywanie API keys
+Własne API - Zarządzanie wewnętrznymi kluczami
+Webhooks - Automatyzacja komunikacji
+Bezpieczeństwo - Rate limiting, whitelisting
+Struktura API Keys:
+
+const integrationKeys = {
+  // Media Monitoring
+  newsdata: "",
+  newsapi: "", 
+  guardian: "",
+  
+  // Music Analytics  
+  songstats: "",
+  spotify_client_id: "",
+  spotify_client_secret: "",
+  loudly: "",
+  
+  // Smart Links
+  bitly: "",
+  rebrandly: "",
+  
+  // Social Media
+  facebook_app_id: "",
+  twitter_bearer_token: "",
+  
+  // E-commerce
+  shopify_api_key: "",
+  printful_api_key: "",
+  stripe_publishable_key: ""
+};
+Bezpieczeństwo:
+
+Keys są przechowywane w localStorage (tylko w przeglądarce użytkownika)
+Opcjonalnie: server-side encryption
+Rate limiting per API
+Webhook signature validation
+4. Integracje API
+4.1 Kategorie Integracji
+Media Monitoring APIs
+// NewsData.io
+GET https://newsdata.io/api/1/news
+Parameters: apikey, q (query), country, language
+
+// NewsAPI.org  
+GET https://newsapi.org/v2/everything
+Parameters: apiKey, q, sources, from, to
+
+// The Guardian
+GET https://content.guardianapis.com/search
+Parameters: api-key, q, section, from-date
+Music Analytics APIs
+// Spotify Web API
+POST https://accounts.spotify.com/api/token (auth)
+GET https://api.spotify.com/v1/artists/{id}
+GET https://api.spotify.com/v1/artists/{id}/top-tracks
+
+// Songstats (RapidAPI)
+GET https://songstats.p.rapidapi.com/artist/{id}
+Headers: X-RapidAPI-Key, X-RapidAPI-Host
+
+// Last.fm
+GET https://ws.audioscrobbler.com/2.0/
+Parameters: method, api_key, artist, format
+AI/ML APIs
+// Base44 Core Integrations
+InvokeLLM({ prompt, response_json_schema, add_context_from_internet })
+GenerateImage({ prompt, style })
+UploadFile({ file })
+ExtractDataFromUploadedFile({ file_url, json_schema })
+Social Media APIs
+// Facebook Graph API
+POST https://graph.facebook.com/v18.0/me/feed
+Parameters: access_token, message, link
+
+// Twitter API v2
+POST https://api.twitter.com/2/tweets
+Headers: Authorization: Bearer {token}
+Body: { "text": "Tweet content" }
+
+// LinkedIn API
+POST https://api.linkedin.com/v2/ugcPosts
+Headers: Authorization: Bearer {token}
+E-commerce APIs
+// Shopify Admin API
+GET https://{shop}.myshopify.com/admin/api/2023-04/products.json
+Headers: X-Shopify-Access-Token
+
+// Printful API
+POST https://api.printful.com/products
+Headers: Authorization: Bearer {token}
+
+// Stripe API  
+POST https://api.stripe.com/v1/payment_intents
+Headers: Authorization: Bearer {secret_key}
+4.2 Rate Limits i Best Practices
+API	Rate Limit	Best Practice
+NewsData.io	200/day (free)	Cache wyniki na 1h
+Spotify	1000/hour	Batch requests
+Facebook	200 calls/hour/user	Queue system
+Twitter	300 tweets/15min	Smart scheduling
+Printful	120/minute	Async processing
+4.3 Error Handling Strategy
+const apiCall = async (url, options) => {
+  try {
+    const response = await fetch(url, options);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return await response.json();
+    
+  } catch (error) {
+    // Log error
+    console.error(`API Error: ${url}`, error);
+    
+    // Show user-friendly message
+    toast.error("Wystąpił błąd podczas pobierania danych. Spróbuj ponownie.");
+    
+    // Return fallback data
+    return getFallbackData();
+  }
+};
+5. Encje i Model Danych
+5.1 Główne Encje
+Campaign Entity (entities/Campaign.json)
+{
+  "name": "Campaign",
+  "properties": {
+    "name": { "type": "string", "description": "Nazwa kampanii" },
+    "status": { 
+      "type": "string", 
+      "enum": ["planning", "active", "paused", "completed", "archived"],
+      "description": "Status kampanii" 
+    },
+    "budget": { "type": "number", "description": "Budżet kampanii" },
+    "start_date": { "type": "string", "format": "date" },
+    "end_date": { "type": "string", "format": "date" },
+    "channels": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["facebook", "instagram", "linkedin", "tiktok", "twitter", "youtube", "google_ads", "email", "pr"] }
+    },
+    "performance_metrics": { "type": "object" },
+    "ai_insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "message": { "type": "string" },
+          "confidence": { "type": "number" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}
+Content Entity (entities/Content.json)
+{
+  "name": "Content",
+  "properties": {
+    "title": { "type": "string" },
+    "content_type": { 
+      "type": "string", 
+      "enum": ["text", "image", "video", "audio", "interactive"] 
+    },
+    "format": {
+      "type": "string",
+      "enum": ["social_post", "blog_article", "ad_copy", "email", "press_release", "video_script", "podcast_script"]
+    },
+    "content_text": { "type": "string" },
+    "campaign_id": { "type": "string" },
+    "channel": { "type": "string" },
+    "scheduled_date": { "type": "string", "format": "date-time" },
+    "status": { 
+      "type": "string", 
+      "enum": ["draft", "scheduled", "published", "archived"],
+      "default": "draft"
+    },
+    "ai_generated": { "type": "boolean", "default": false },
+    "brand_voice": {
+      "type": "string",
+      "enum": ["professional", "friendly", "enthusiastic", "authoritative", "playful"]
+    },
+    "sentiment_analysis": {
+      "type": "object",
+      "properties": {
+        "score": { "type": "number", "minimum": -1, "maximum": 1 },
+        "label": { "type": "string", "enum": ["negative", "neutral", "positive"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
+Contact Entity (entities/Contact.json)
+{
+  "name": "Contact", 
+  "properties": {
+    "name": { "type": "string" },
+    "email": { "type": "string", "format": "email" },
+    "role": {
+      "type": "string",
+      "enum": ["journalist", "blogger", "influencer", "editor", "pr_specialist", "other"]
+    },
+    "organization": { "type": "string" },
+    "reach": { "type": "number" },
+    "topics": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+    "contact_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date-time" },
+          "type": { "type": "string", "enum": ["email", "call", "meeting", "social"] },
+          "outcome": { "type": "string", "enum": ["positive", "negative", "neutral", "no_response"] }
+        }
+      }
+    }
+  }
+}
+Analytics Entity (entities/Analytics.json)
+{
+  "name": "Analytics",
+  "properties": {
+    "campaign_id": { "type": "string" },
+    "metric_type": {
+      "type": "string", 
+      "enum": ["impressions", "clicks", "conversions", "reach", "engagement", "sentiment", "roi", "ctr", "cpc", "cpa"]
+    },
+    "value": { "type": "number" },
+    "date": { "type": "string", "format": "date" },
+    "channel": { "type": "string" },
+    "predicted_performance": {
+      "type": "object",
+      "properties": {
+        "next_7_days": { "type": "number" },
+        "confidence_interval": {
+          "type": "object",
+          "properties": {
+            "lower": { "type": "number" },
+            "upper": { "type": "number" }
+          }
+        }
+      }
+    },
+    "benchmark_comparison": {
+      "type": "object", 
+      "properties": {
+        "industry_average": { "type": "number" },
+        "percentile": { "type": "number" },
+        "performance_vs_avg": { "type": "string", "enum": ["above", "below", "average"] }
+      }
+    }
+  }
+}
+5.2 Relacje między Encjami
+erDiagram
+    User ||--o{ Campaign : creates
+    Campaign ||--o{ Content : contains
+    Campaign ||--o{ Analytics : tracked_by
+    Content ||--o{ Analytics : generates
+    Contact ||--o{ Campaign : targeted_in
+    
+    User {
+        string id
+        string email
+        string creator_type
+        object initial_strategy
+        boolean onboarding_completed
+    }
+    
+    Campaign {
+        string id
+        string name
+        string status
+        number budget
+        date start_date
+        array channels
+        object ai_insights
+    }
+    
+    Content {
+        string id
+        string title
+        string content_type
+        string format
+        string campaign_id
+        string status
+        boolean ai_generated
+    }
+    
+    Contact {
+        string id
+        string name
+        string email
+        string role
+        number rating
+        array topics
+    }
+    
+    Analytics {
+        string id
+        string campaign_id
+        string metric_type
+        number value
+        date date
+        object predicted_performance
+    }
+6. Komponenty Wielokrotnego Użytku
+6.1 Dashboard Components
+StatsCard (components/dashboard/StatsCard.jsx)
+// Uniwersalna karta ze statystyką
+<StatsCard 
+  title="Aktywne kampanie"
+  value="12"
+  icon={Zap}
+  trend="+15% w tym miesiącu"
+  color="violet"
+/>
+CampaignsList (components/dashboard/CampaignsList.jsx)
+// Lista kampanii z szybkimi akcjami
+<CampaignsList 
+  campaigns={campaigns}
+  onStatusChange={handleStatusChange}
+  onEdit={handleEdit}
+/>
+6.2 AI Components
+AIAgent (components/ai/AIAgent.jsx)
+// Konwersacyjny asystent AI
+<AIAgent 
+  specialist="marketing_expert"
+  context={campaignData}
+  onActionSuggested={handleAction}
+/>
+SentimentAnalyzer (components/ai/SentimentAnalyzer.jsx)
+// Analiza sentymentu treści
+<SentimentAnalyzer 
+  content={contentText}
+  onAnalysisComplete={handleSentiment}
+/>
+6.3 Form Components
+CampaignForm (components/forms/CampaignForm.jsx)
+// Formularz kampanii z walidacją
+<CampaignForm
+  campaign={editingCampaign}
+  onSubmit={handleSubmit}
+  onCancel={handleCancel}
+/>
+ContentForm (components/forms/ContentForm.jsx)
+// Formularz treści z AI assistance
+<ContentForm
+  content={selectedContent}
+  campaigns={availableCampaigns}
+  onSubmit={handleContentSubmit}
+/>
+6.4 Notification System
+ToastSystem (components/notifications/ToastSystem.jsx)
+// System powiadomień
+const { success, error, info } = useToast();
+
+success("Kampania została utworzona!");
+error("Błąd podczas zapisywania danych");
+info("Synchronizacja w toku...");
+RealtimeNotifications (components/notifications/RealtimeNotifications.jsx)
+// Powiadomienia w czasie rzeczywistym
+<RealtimeNotifications 
+  userId={currentUser.id}
+  onNotificationClick={handleNotificationClick}
+/>
+6.5 Collaboration Components
+CommentSystem (components/collaboration/CommentSystem.jsx)
+// System komentarzy dla treści/kampanii
+<CommentSystem
+  relatedEntityId={contentId}
+  entityType="Content"
+  onCommentSubmit={handleComment}
+/>
+7. System Autoryzacji
+7.1 Architektura Auth
+Prometheus wykorzystuje Base44 Authentication System z Google OAuth:
+
+// Sprawdzenie statusu logowania
+const checkAuth = async () => {
+  try {
+    const user = await User.me();
+    return user;
+  } catch (error) {
+    // User not logged in
+    return null;
+  }
+};
+
+// Login redirect
+const login = async () => {
+  await User.loginWithRedirect(window.location.href);
+};
+
+// Logout
+const logout = async () => {
+  await User.logout();
+};
+7.2 Protected Routes
+// Layout.js zawiera logikę autoryzacji
+const Layout = ({ children, currentPageName }) => {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+  
+  const checkAuthStatus = async () => {
+    try {
+      const currentUser = await User.me();
+      setUser(currentUser);
+    } catch (error) {
+      // Redirect to login if needed
+      if (requiresAuth(currentPageName)) {
+        User.login();
+      }
+    }
+    setIsLoading(false);
+  };
+};
+7.3 User Roles i Permissions
+// User roles w Base44
+const USER_ROLES = {
+  ADMIN: 'admin',      // Pełny dostęp do wszystkich funkcji
+  USER: 'user'         // Standardowy dostęp
+};
+
+// Sprawdzanie uprawnień
+const hasPermission = (user, requiredRole) => {
+  if (requiredRole === 'admin' && user.role !== 'admin') {
+    return false;
+  }
+  return true;
+};
+7.4 Data Security
+API Keys: Przechowywane w localStorage (client-side only)
+User Data: Szyfrowane w Base44 database
+File Uploads: Signed URLs z ekspiration
+Rate Limiting: Per-user limits na API calls
+8. Deployment i Konfiguracja
+8.1 Environment Setup
+Development:
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+Environment Variables:
+
+// Konfiguracja w Base44 dashboard
+REACT_APP_BASE44_APP_ID=your_app_id
+REACT_APP_BASE44_API_URL=https://api.base44.com
+8.2 Production Deployment
+Base44 Platform Deployment:
+
+Automatic builds z GitHub
+CDN distribution
+SSL certificates
+Domain management
+Performance Optimizations:
+
+Code splitting per route
+Lazy loading komponentów
+Image optimization
+API response caching
+8.3 Monitoring i Analytics
+Application Monitoring:
+
+// Error tracking
+import { logError } from '@/utils/monitoring';
+
+try {
+  await apiCall();
+} catch (error) {
+  logError('API_CALL_FAILED', { error, context });
+}
+Performance Metrics:
+
+Page load times
+API response times
+User engagement tracking
+Conversion funnel analytics
+8.4 Backup i Recovery
+Data Backup:
+
+Automatic daily backups w Base44
+User data export functionality
+API keys backup (encrypted)
+Disaster Recovery:
+
+Multi-region deployment
+Database replication
+Automated failover
+9. API Usage Limits i Costs
+9.1 Free Tier Limits
+Service	Free Limit	Paid Plans Start
+NewsData.io	200 requests/day	$10/month (2000/day)
+NewsAPI	1000 requests/day	$449/month (unlimited)
+Spotify API	1000 requests/hour	Free (commercial use allowed)
+Bitly	1000 links/month	$29/month (10,000 links)
+Facebook API	200 calls/hour	Free (with app review)
+Twitter API	10,000 tweets/month	$100/month (50,000)
+9.2 Cost Optimization
+Best Practices:
+
+Cache API responses (1-24h depending on data freshness)
+Batch API calls gdzie możliwe
+Use webhooks zamiast polling
+Implement intelligent rate limiting
+Monitor usage dashboard
+Estimated Monthly Costs dla Small Creator:
+
+NewsData.io (Free): $0
+Spotify API (Free): $0  
+Bitly (Free tier): $0
+Total: $0/month
+
+Medium Creator:
+NewsData.io (Paid): $10
+Bitly (Paid): $29
+Twitter API (Paid): $100
+Total: $139/month
+10. Future Roadmap
+10.1 Planned Features (Q3-Q4 2024)
+Stripe Integration:
+
+Subscription management
+Usage-based billing
+Multi-tier pricing
+Mobile App:
+
+React Native implementation
+Push notifications
+Offline content creation
+Advanced AI:
+
+Custom AI models per user
+Voice cloning dla podcasterów
+Video generation
+Enterprise Features:
+
+Team management
+White-label solutions
+Advanced security (SSO, SAML)
+10.2 API Expansions
+Planned Integrations:
+
+TikTok Creator Fund API
+Patreon Creator API
+Discord Bot API
+Twitch API
+OnlyFans Creator API (business analytics)
+10.3 Internationalization
+Target Markets:
+
+Europe (GDPR compliance)
+Latin America
+Asia-Pacific
+Localization:
+
+Multi-language UI
+Currency support
+Local payment methods
+Regional compliance
+📞 Support i Documentation
+Technical Support:
+
+GitHub Issues dla bug reports
+Discord community dla developers
+Email support: dev@prometheus.ai
+Documentation:
+
+API Reference: https://docs.prometheus.ai
+Video Tutorials: https://learn.prometheus.ai
+Community Wiki: https://wiki.prometheus.ai
+SLA Commitments:
+
+99.9% uptime guarantee
+<2s average API response time
+<24h support response time
+Koniec Dokumentacji
+
+Wersja 1.0 - Ostatnia aktualizacja: 24 maja 2024
+

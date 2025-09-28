@@ -1,0 +1,56 @@
+{
+  "name": "hardbanrecords-backend",
+  "version": "1.0.0",
+  "description": "HardbanRecords Lab Backend API",
+  "main": "server.cjs",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.cjs",
+    "dev": "nodemon server.cjs",
+    "build": "echo 'No build step required'",
+    "test": "echo 'Tests not implemented yet'",
+    "deploy": "echo 'Deploying to Render.com'"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.888.0",
+    "@aws-sdk/s3-request-presigner": "^3.888.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "express-validator": "^7.2.1",
+    "groq-sdk": "^0.32.0",
+    "helmet": "^7.2.0",
+    "ioredis": "^5.7.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "rate-limit-redis": "^4.2.2",
+    "uuid": "^13.0.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skomrakus84/HardbanRecords_Lab"
+  },
+  "keywords": [
+    "music",
+    "publishing",
+    "distribution",
+    "api"
+  ],
+  "author": "HardbanRecords",
+  "license": "MIT"
+}

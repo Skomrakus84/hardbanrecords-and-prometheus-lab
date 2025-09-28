@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: HardbanRecords-Lab API
+  version: 1.0.0
+paths:
+  /api/auth/login:
+    post:
+      summary: Logowanie użytkownika
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Zalogowano pomyślnie
+        '401':
+          description: Błędne dane logowania
+  /api/admin/users:
+    get:
+      summary: Pobierz listę użytkowników (admin)
+      responses:
+        '200':
+          description: Lista użytkowników

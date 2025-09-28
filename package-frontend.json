@@ -1,0 +1,39 @@
+{
+  "name": "hardbanrecords-frontend",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@heroicons/react": "^2.2.0",
+    "@vercel/analytics": "^1.5.0",
+    "axios": "^1.11.0",
+    "framer-motion": "^10.16.4",
+    "next": "^15.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.8.2",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/axios": "^0.9.36",
+    "@types/node": "^24.3.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "15.5.2",
+    "jiti": "^2.5.1",
+    "typescript": "^5.9.2"
+  }
+}

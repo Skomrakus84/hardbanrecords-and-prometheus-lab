@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: hardbanrecords-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+      - key: SUPABASE_ACCESS_KEY_ID
+        sync: false
+      - key: SUPABASE_SECRET_ACCESS_KEY
+        sync: false
+      - key: SUPABASE_REGION
+        sync: false
+      - key: SUPABASE_BUCKET_NAME
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false

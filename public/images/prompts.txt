@@ -1,0 +1,89 @@
+
+
+---
+
+## **1️⃣ Ikony (25)**
+
+1. Elegant line icon of home, gold accent, minimalistic, transparent background, vector style | Ikona domu w eleganckiej wersji premium | Przycisk „Strona główna”
+2. Luxury avatar icon, circular, soft shadows, vector, modern style | Profil użytkownika w estetycznej formie | Dashboard / profil
+3. High-end gear settings icon, thin lines, subtle gradient, vector style | Ikona ustawień | Ustawienia aplikacji
+4. Notification bell icon, minimalist, slight shadow, gold accent | Powiadomienia | Dashboard powiadomień
+5. Search magnifying glass, subtle 3D effect, thin lines, modern luxury style | Pole wyszukiwania | Search bar
+6. Download arrow icon, vector, soft gradient, professional style | Pobieranie plików | Download action
+7. Upload cloud icon, smooth lines, subtle shadows, vector style | Upload plików | Upload files
+8. Analytics chart icon, clean lines, gradient, vector style | Dashboard statystyk | Analytics section
+9. Message icon, thin line, minimalistic, modern vector | Wiadomości | Chat / notifications
+10. Calendar icon, flat vector, subtle shadow, luxury style | Kalendarz | Events / scheduling
+11. Folder icon, minimal, elegant vector, soft gradient | Folder | File management
+12. Lock icon, premium flat style, subtle 3D effect | Bezpieczeństwo | Authentication / privacy
+13. Eye icon, minimal vector, thin lines | Widoczność | Show/hide content
+14. Trash bin icon, flat premium vector | Usuwanie | Delete actions
+15. Plus icon, circular elegant vector | Dodawanie | Add new item
+16. Minus icon, minimal vector, thin lines | Usuwanie | Remove item
+17. Refresh icon, elegant thin line, subtle gradient | Odświeżanie | Refresh / reload
+18. Heart icon, soft gradient, minimal line | Ulubione | Like / favorites
+19. Star icon, premium flat vector | Oceny | Rating / favorite
+20. Share icon, thin line, modern vector | Udostępnianie | Share action
+21. Chat bubble icon, subtle gradient, thin lines | Komunikacja | Chat box
+22. Download cloud icon, premium vector, soft gradient | Pobieranie plików | Cloud download
+23. Upload arrow icon, elegant flat vector | Wysyłanie plików | Upload action
+24. Settings slider icon, minimal thin line, luxury vector | Regulacja | Settings slider
+25. Info circle icon, thin line, elegant vector | Informacja | Tooltips / help
+
+---
+
+## **2️⃣ Przyciski (10)**
+
+26. 3D glass button with soft shadows, subtle gradient, modern elegant style | Elegancki przycisk CTA | Główny przycisk
+27. Round icon button, minimal, thin outline, premium style | Ikonowy przycisk | Akcje typu „Dodaj” / „Usuń”
+28. Neon subtle submit button, glowing edges, elegant UI style | Przyciski formularzy | Submit form
+29. Flat minimal outline button, hover gradient, high-end style | Prostokątny przycisk | Standardowe CTA
+30. Gradient pill button, soft shadow, modern UI | Zaokrąglony przycisk | Action / navigation
+31. Icon + text button, elegant minimal gradient, subtle shadow | Ikonowy przycisk z opisem | Secondary action
+32. Floating action button, circular, subtle gradient, premium style | Floating button | Quick action
+33. Toggle button, elegant rounded style, soft shadow | Włącz/wyłącz | Settings / preferences
+34. Ghost button, transparent with gold outline, minimalistic | Stylowy CTA | Secondary / neutral action
+35. Raised 3D button, soft gradient, modern luxury style | Wyróżniony przycisk | Highlighted CTA
+
+---
+
+## **3️⃣ Grafiki dekoracyjne / ilustracje (15)**
+
+36. Abstract gradient background, soft colors, futuristic elegance, high-quality | Nowoczesne tło | Dashboard header / hero section
+37. Vector illustration of professional team working, minimal, elegant color palette | Ilustracja zespołu | Sekcja „O nas”
+38. Clean vector illustration of data analytics, premium flat design | Ilustracja analityki danych | Dashboard statystyk
+39. Luxury flat illustration of mobile app concept, subtle gradients, professional style | Ilustracja koncepcji aplikacji | Landing page / how it works
+40. Empty state illustration, refined vector style, subtle colors | Pusta grafika | Empty lists / brak danych
+41. Illustration of premium dashboard, flat vector, minimal colors | Dashboard mockup | Dashboard showcase
+42. Vector abstract pattern, subtle lines, elegant design | Dekoracyjne tło | Panel boczny / sekcje
+43. Flat illustration of e-commerce concept, modern elegant style | Ilustracja sklepu | Sekcja produktów
+44. Minimal vector icons set, premium style, uniform design | Ikony zbiorcze | Menu / sidebar
+45. Isometric office illustration, subtle shadows, luxury style | Biuro | Onboarding / about
+46. Minimal flat illustration of mobile device, elegant UI | Device mockup | Landing page
+47. Vector illustration of analytics dashboard, clean gradient | Dashboard section | Analytics showcase
+48. Elegant line art illustration, luxury thin lines | Decoration | Section headers
+49. Modern vector illustration of team collaboration | Teamwork concept | Collaboration page
+50. Futuristic minimalistic pattern, subtle gradient | Abstract decoration | Background / panels
+
+---
+
+## **4️⃣ UI Elements / Widgets (15)**
+
+51. Progress bar, elegant gradient, soft shadows, premium UI style | Pasek postępu | Upload / task progress
+52. Toggle switch, smooth animation, minimal premium style | Włącz/wyłącz | Settings user
+53. Dropdown arrow, subtle shadow, thin line, elegant style | Strzałka w dół | Menu rozwijane
+54. Slider control, gradient fill, elegant web UI | Suwak | Regulacja wartości
+55. Badge notification, soft gradient, subtle shadow | Powiadomienia | Red badge
+56. Tooltip icon, subtle vector style, elegant minimal design | Podpowiedź | Additional info
+57. Pagination buttons, minimal line, luxury style | Nawigacja stron | Page navigation
+58. Tab menu, flat elegant vector, subtle gradient | Menu zakładek | Tab navigation
+59. Search input field, elegant vector style, minimal | Pole wyszukiwania | Search bar
+60. Card component, shadow, gradient, premium flat style | Dashboard card | Data display
+61. Modal window, subtle shadow, luxury style | Okno modalne | Pop-up / dialogs
+62. Notification toast, gradient background, subtle shadow | Powiadomienia | Alerts
+63. Accordion toggle, smooth animation, modern style | Rozwijane sekcje | Collapsible content
+64. Chart elements, vector, elegant gradient | Wykresy / grafiki | Data visualization
+65. Sidebar menu, minimal elegant style, gradient | Panel boczny | Navigation menu
+
+---
+
