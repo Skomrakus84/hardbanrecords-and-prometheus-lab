@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HomePageNew from './pages/HomePageNew';
 import ReleasesPageNew from './pages/music/ReleasesPageNew';
+import MusicOverviewNew from './pages/music/MusicOverviewNew';
 import ArtistsPageNew from './pages/music/ArtistsPageNew';
 import DistributionPageNew from './pages/music/DistributionPageNew';
 import AnalyticsPageNew from './pages/music/AnalyticsPageNew';
@@ -8,12 +9,17 @@ import PublishingPageNew from './pages/publishing/PublishingPageNew';
 import BooksPageNew from './pages/publishing/BooksPageNew';
 import ContractsPageNew from './pages/ContractsPageNew';
 import SettingsPageNew from './pages/SettingsPageNew';
+import PrometheusDashboard from './pages/PrometheusDashboard';
+import { Brand } from './components/ui/BrandConfig';
+import { Home, Music2, Disc3, Users, FileText, BookOpen, BarChart3, Send, Settings, Rocket } from 'lucide-react';
+import { BrandIcon } from './components/ui/ModernComponents';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState<boolean>(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   React.useEffect(() => {
+    if (typeof window === 'undefined') return;
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -21,7 +27,7 @@ const App: React.FC = () => {
 
   const sidebarStyle = {
     width: isMobile ? '100%' : '280px',
-    backgroundColor: '#0f172a',
+  backgroundColor: '#0f172a',
     color: '#f8fafc',
     height: '100vh',
     padding: '32px 24px',
@@ -42,16 +48,17 @@ const App: React.FC = () => {
   };
 
   const menuItems = [
-    { id: 'dashboard', icon: '🏠', label: 'Dashboard' },
-    { id: 'music', icon: '🎵', label: 'Music' },
-    { id: 'releases', icon: '💿', label: 'Releases' },
-    { id: 'artists', icon: '👨‍🎤', label: 'Artists' },
-    { id: 'contracts', icon: '📋', label: 'Contracts' },
-    { id: 'publishing', icon: '📚', label: 'Publishing' },
-    { id: 'books', icon: '📖', label: 'Books' },
-    { id: 'analytics', icon: '📊', label: 'Analytics' },
-    { id: 'distribution', icon: '🌍', label: 'Distribution' },
-    { id: 'settings', icon: '⚙️', label: 'Settings' }
+    { id: 'dashboard', icon: Home, label: 'Dashboard' },
+    { id: 'music', icon: Music2, label: 'Music' },
+    { id: 'releases', icon: Disc3, label: 'Releases' },
+    { id: 'artists', icon: Users, label: 'Artists' },
+    { id: 'contracts', icon: FileText, label: 'Contracts' },
+    { id: 'publishing', icon: BookOpen, label: 'Publishing' },
+    { id: 'books', icon: BookOpen, label: 'Books' },
+    { id: 'analytics', icon: BarChart3, label: 'Analytics' },
+    { id: 'distribution', icon: Send, label: 'Distribution' },
+    { id: 'settings', icon: Settings, label: 'Settings' },
+    { id: 'prometheus', icon: Rocket, label: 'Prometheus' }
   ];
 
   const renderContent = () => {
@@ -65,7 +72,7 @@ const App: React.FC = () => {
       case 'contracts':
         return <ContractsPageNew />;
       case 'music':
-        return <ReleasesPageNew />;
+        return <MusicOverviewNew />;
       case 'publishing':
         return <PublishingPageNew />;
       case 'books':
@@ -76,6 +83,8 @@ const App: React.FC = () => {
         return <DistributionPageNew />;
       case 'settings':
         return <SettingsPageNew />;
+      case 'prometheus':
+        return <PrometheusDashboard />;
       default:
         return <HomePageNew />;
     }
@@ -85,6 +94,7 @@ const App: React.FC = () => {
     <div style={{
       margin: 0,
       padding: 0,
+      background: Brand.colors.bg,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
     }}>
       {/* Sidebar */}
@@ -156,8 +166,10 @@ const App: React.FC = () => {
                 }
               }}
             >
-              <span style={{ fontSize: '20px' }}>{item.icon}</span>
-              {item.label}
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                <BrandIcon icon={item.icon} brand="generic" size={18} />
+              </span>
+              <span>{item.label}</span>
             </button>
           ))}
         </nav>
@@ -198,7 +210,9 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <div style={mainStyle}>
-        {renderContent()}
+        <div style={{ background: Brand.colors.bg, minHeight: '100vh' }}>
+          {renderContent()}
+        </div>
       </div>
 
       {/* Mobile Menu Button */}

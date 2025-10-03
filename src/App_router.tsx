@@ -10,6 +10,7 @@ import PublishingDashboard from './pages/publishing/PublishingDashboard';
 import BooksPageNew from './pages/publishing/BooksPageNew';
 import ContractsPageNew from './pages/ContractsPageNew';
 import SettingsPageNew from './pages/SettingsPageNew';
+import PrometheusDashboard from './pages/PrometheusDashboard';
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
@@ -38,6 +39,7 @@ const Sidebar: React.FC = () => {
 
   const menuItems = [
     { id: 'dashboard', icon: '/images/search-magnifying.png', label: 'Dashboard', path: '/' },
+    { id: 'prometheus', icon: '/images/rocket.png', label: 'Prometheus', path: '/prometheus' },
     { id: 'music', icon: '/images/music-label-logo.png', label: 'Music', path: '/music' },
     { id: 'releases', icon: '/images/music-publishing.png', label: 'Releases', path: '/releases' },
     { id: 'artists', icon: '/images/hrl.svg', label: 'Artists', path: '/artists' },
@@ -245,6 +247,7 @@ const MainContent: React.FC = () => {
       <div style={contentStyle}>
         <Routes>
           <Route path="/" element={<HomePageNew />} />
+          <Route path="/prometheus" element={<PrometheusDashboard />} />
           <Route path="/music" element={<ReleasesPageNew />} />
           <Route path="/releases" element={<ReleasesPageNew />} />
           <Route path="/artists" element={<ArtistsPageNew />} />

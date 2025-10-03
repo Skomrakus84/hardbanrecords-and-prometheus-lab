@@ -1,0 +1,7 @@
+/* App.css placeholder for Vercel build. Use index.css for main styles. */
+@import './index.css';
+
+.App {
+  min-height: 100vh;
+  background: #f8fafc;
+}

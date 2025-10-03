@@ -632,4 +632,4 @@
 
 *"Empowering Independent Creators to Build Sustainable Creative Businesses"*
 
-**© 2024 HardbanRecords Lab. All Rights Reserved.**
+**© 2025 HardbanRecords Lab. All Rights Reserved.**
