@@ -14,10 +14,19 @@ const aiRoutes = require('./routes/ai.cjs');
 const authRoutes = require('./routes/auth.cjs');
 const groqRoutes = require('./routes/groq.cjs');
 const adminRoutes = require('./routes/admin.cjs');
+const prometheusRoutes = require('./routes/prometheus.routes.cjs');
 const errorHandler = require('./middleware/errorHandler.cjs');
 
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const PrometheusWebSocketService = require('./services/prometheusWebSocket.service.cjs');
+
 const PORT = process.env.PORT || 3001;
+
+// Initialize WebSocket service
+const wsService = new PrometheusWebSocketService(server);
+wsService.startMetricsStream(); // Start sending real-time metrics
 
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -210,6 +219,9 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/groq', groqRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/prometheus', prometheusRoutes);
+
+// Error handling
 
 // 404 handler
 app.use('*', (req, res) => {
